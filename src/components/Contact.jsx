@@ -6,6 +6,10 @@ import { SectionWrapper } from "../hoc";
 import emailjs from "@emailjs/browser";
 import { slideIn } from "../utils/motion";
 
+//template_d1686bg
+//service_y5i4zsz
+//f_rrebR_FfMbUTijz
+
 const Contact = () => {
   const formRef = useRef();
   const [form, setForm] = useState({
@@ -13,9 +17,40 @@ const Contact = () => {
     email: "",
     message: ""
   })
-  const [loading, useLoading] = useState(false);
-  const handleChange = (e) => { };
-  const handleSubmit = (e) => { }
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value })
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setLoading(true)
+    emailjs.send("service_y5i4zsz",
+      "template_d1686bg",
+      {
+        from_name: form.name,
+        to_name: "Afnan",
+        form_email: form.email,
+        to_email: "azobayada@gmail.com",
+        message: form.message
+      },
+      "f_rrebR_FfMbUTijz"
+    ).then(() => {
+      setLoading(false);
+      alert("Message Sent Successfully!");
+
+      setForm({
+        name: "",
+        email: "",
+        message: ""
+      }), (error) => {
+        setLoading(false);
+        alert("Something Went Wrong!")
+      }
+    })
+  }
   return (
     <div className="xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden">
       <motion.div
